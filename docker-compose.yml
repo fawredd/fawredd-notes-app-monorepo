@@ -3,7 +3,6 @@ services:
     build:
       context: ./backend
       dockerfile: Dockerfile
-    restart: always
     ports:
       - "5000:5000"
     environment:
@@ -13,7 +12,6 @@ services:
     build:
       context: ./frontend
       dockerfile: Dockerfile
-    restart: always
     ports:
       - "3000:3000"
     environment:
