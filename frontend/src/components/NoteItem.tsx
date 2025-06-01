@@ -1,4 +1,3 @@
-// frontend/src/components/NoteItem.tsx
 import { Note, Tag } from "@/types"
 
 interface NoteItemProps {
