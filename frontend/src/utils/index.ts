@@ -5,7 +5,7 @@ export async function handleFetchResponse<T>(response: Response): Promise<T> {
       .json()
       .catch(() => ({ message: response.statusText }))
     throw new Error(
-      errorData.message || `HTTP error! status: ${response.status}`
+      errorData.message || `HTTP error! status: ${response.status}`,
     )
   }
   if (response.status === 204) {
