@@ -8,15 +8,15 @@ export function LoginForm() {
   const [state, loginAction] = useActionState(login, undefined);
 
   return (
-    <form action={loginAction} className="flex max-w-[300px] flex-col gap-2">
-      <div className="flex flex-col gap-2">
+    <form action={loginAction} className="flex max-w-[300px] flex-col gap-2 mx-auto">
+      <div className="flex flex-col gap-2 border-b border-gray-300 pb-2">
         <input id="email" name="email" placeholder="Email" />
       </div>
       {state?.errors?.email && (
         <p className="text-red-500">{state.errors.email}</p>
       )}
 
-      <div className="flex flex-col gap-2">
+      <div className="flex flex-col gap-2 border-b border-gray-300 pb-2">
         <input
           id="password"
           name="password"

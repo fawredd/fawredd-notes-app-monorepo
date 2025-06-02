@@ -1,4 +1,5 @@
 import { Note } from "@/types"
+import { handleFetchResponse } from "@/utils"
 
 if (!process.env.NEXT_PUBLIC_BACKEND_URL) {
   throw new Error("Environment variable NEXT_PUBLIC_BACKEND_URL is not defined")
@@ -13,23 +14,6 @@ interface NotePayload {
   archived?: boolean
 }
 
-// funcion de utilidad para manejar respuestas
-async function handleResponse<T>(response: Response): Promise<T> {
-  if (!response.ok) {
-    const errorData = await response
-      .json()
-      .catch(() => ({ message: response.statusText }))
-    throw new Error(
-      errorData.message || `HTTP error! status: ${response.status}`
-    )
-  }
-  if (response.status === 204) {
-    // No Content
-    return undefined as T
-  }
-  return response.json() as Promise<T>
-}
-
 export async function getNotes(
   archived?: boolean,
   tag?: string
@@ -41,12 +25,12 @@ export async function getNotes(
   const response = await fetch(
     `${API_BASE_URL}/notes?${queryParams.toString()}`
   )
-  return handleResponse<Note[]>(response)
+  return handleFetchResponse<Note[]>(response)
 }
 
 export async function getNoteById(id: string): Promise<Note> {
   const response = await fetch(`${API_BASE_URL}/notes/${id}`)
-  return handleResponse<Note>(response)
+  return handleFetchResponse<Note>(response)
 }
 
 export async function createNote(noteData: NotePayload): Promise<Note> {
@@ -55,7 +39,7 @@ export async function createNote(noteData: NotePayload): Promise<Note> {
     headers: { "Content-Type": "application/json" },
     body: JSON.stringify(noteData),
   })
-  return handleResponse<Note>(response)
+  return handleFetchResponse<Note>(response)
 }
 
 export async function updateNote(
@@ -67,12 +51,12 @@ export async function updateNote(
     headers: { "Content-Type": "application/json" },
     body: JSON.stringify(noteData),
   })
-  return handleResponse<Note>(response)
+  return handleFetchResponse<Note>(response)
 }
 
 export async function deleteNote(id: string): Promise<void> {
   const response = await fetch(`${API_BASE_URL}/notes/${id}`, {
     method: "DELETE",
   })
-  await handleResponse<void>(response) // Expects 204 No Content
+  await handleFetchResponse<void>(response) // Expects 204 No Content
 }

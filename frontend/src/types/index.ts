@@ -12,3 +12,8 @@ export interface Note{
   updatedAt?: string;
   tags: Tag[];
 }
+
+export interface User{
+  email: string;
+  FullName: String;
+}
