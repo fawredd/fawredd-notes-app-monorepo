@@ -1,5 +1,6 @@
 import { Note } from "@/types"
 import NoteItem from "./NoteItem"
+import { store } from "@/state/store"
 
 interface NoteListProps {
   notes: Note[]

@@ -4,7 +4,7 @@ import Page from '../src/app/page'
 
  
 describe('Page', () => {
-  process.env.NEXT_PUBLIC_BACKEND_URL = 'http://mocked-backend-url.com';
+
   it('renders a heading', () => {
     render(<Page />)
  
@@ -12,4 +12,5 @@ describe('Page', () => {
  
     expect(heading).toBeInTheDocument()
   })
+
 })

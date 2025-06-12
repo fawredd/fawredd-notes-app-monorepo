@@ -17,7 +17,7 @@ describe('NoteItem Component', () => {
       { id: '2', name: 'Tag2' },
     ],
   };
-  process.env.NEXT_PUBLIC_BACKEND_URL = 'http://mocked-backend-url.com';
+  process.env.NEXT_PUBLIC_BACKEND_URL = 'http://localhost:5000';
 
   const mockDelete = jest.fn();
   const mockToggleArchive = jest.fn();
