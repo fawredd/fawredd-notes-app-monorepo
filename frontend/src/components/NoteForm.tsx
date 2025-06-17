@@ -3,20 +3,31 @@
 import { useState, useEffect } from "react"
 import { Note } from "@/types"
 
+import *  as notesActions from "@/state/notes/noteSlice"
+import { useDispatch, useSelector } from "react-redux"
+import { AppDispatch } from "@/state/store"
+
 interface NoteFormProps {
-  onSaveNote: (
+  /**
+    onSaveNote: (
     noteData: { title: string; content?: string; tags: string[] },
     idToUpdate?: string
   ) => void
   noteToEdit: Note | null // Note being edited, or null if creating new
   onCancelEdit: () => void // To clear the edit state
+  **/
 }
 
 const NoteForm: React.FC<NoteFormProps> = ({
-  onSaveNote,
-  noteToEdit,
-  onCancelEdit,
+  // onSaveNote,
+  // noteToEdit,
+  // onCancelEdit,
 }) => {
+  const dispatch = useDispatch<AppDispatch>() 
+  const noteToEditId = useSelector(notesActions.selectNoteToEdit)
+  const noteToEdit = useSelector(notesActions.selectNotes).find(
+    (note) => note.id === noteToEditId
+  )
   const [title, setTitle] = useState("")
   const [content, setContent] = useState("")
   const [tagsInput, setTagsInput] = useState("")
@@ -48,7 +59,8 @@ const NoteForm: React.FC<NoteFormProps> = ({
       .split(",")
       .map((tag) => tag.trim())
       .filter((tag) => tag !== "")
-    onSaveNote({ title, content, tags }, noteToEdit?.id)
+    dispatch(notesActions.saveNote({ noteData: { title, content, tags }, noteId: noteToEdit?.id }))
+    //onSaveNote({ title, content, tags }, noteToEdit?.id)
 
     // Only clear form if creating a new note, or after successful update if user don't want to keep editing
     if (!noteToEdit) {
@@ -56,7 +68,7 @@ const NoteForm: React.FC<NoteFormProps> = ({
       setContent("")
       setTagsInput("")
     } else {
-      onCancelEdit() // Clear editing mode after update
+      dispatch(notesActions.cancelEdit()) // Clear editing mode after update
     }
   }
 
@@ -126,7 +138,7 @@ const NoteForm: React.FC<NoteFormProps> = ({
         {noteToEdit && (
           <button
             type="button"
-            onClick={onCancelEdit}
+            onClick={()=> dispatch(notesActions.cancelEdit())} // Clear editing mode
             className="px-4 py-2 bg-gray-300 text-gray-700 font-semibold rounded-md hover:bg-gray-400 focus:outline-none focus:ring-2 focus:ring-gray-500 focus:ring-offset-2"
           >
             Cancel Edit

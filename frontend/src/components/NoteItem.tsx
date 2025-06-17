@@ -1,18 +1,19 @@
+"use client"
 import { Note, Tag } from "@/types"
+import *  as notesActions from "@/state/notes/noteSlice"
+import { useDispatch } from "react-redux"
+import { AppDispatch } from "@/state/store"
+
 
 interface NoteItemProps {
   note: Note
-  onDelete: (id: string) => void
-  onToggleArchive: (id: string) => void
-  onSetToEdit: (note: Note) => void
+
 }
 
 const NoteItem: React.FC<NoteItemProps> = ({
-  note,
-  onDelete,
-  onToggleArchive,
-  onSetToEdit,
+  note
 }) => {
+  const dispatch = useDispatch<AppDispatch>()
   return (
     <div
       className={`p-4 border rounded-lg shadow-sm mb-4 ${
@@ -49,20 +50,20 @@ const NoteItem: React.FC<NoteItemProps> = ({
       </p>
       <div className="mt-3 flex space-x-2">
         <button
-          onClick={() => onSetToEdit(note)}
+          onClick={() => dispatch(notesActions.setNoteToEdit(note.id))} 
           className={`text-sm text-blue-600 hover:text-blue-800 font-medium py-1 px-2 rounded hover:bg-blue-100 transition-colors`} 
           disabled={note.archived} // Optionally disable edit for archived notes
         >
           Edit
         </button>
         <button
-          onClick={() => onDelete(note.id)}
+          onClick={() => dispatch(notesActions.deleteNote(note.id))}
           className="text-sm text-red-600 hover:text-red-800 font-medium py-1 px-2 rounded hover:bg-red-100 transition-colors"
         >
           Delete
         </button>
         <button
-          onClick={() => onToggleArchive(note.id)}
+          onClick={() => dispatch(notesActions.toggleArchiveNote(note.id))}
           className="text-sm text-green-600 hover:text-green-800 font-medium py-1 px-2 rounded hover:bg-green-100 transition-colors"
         >
           {note.archived ? "Unarchive" : "Archive"}

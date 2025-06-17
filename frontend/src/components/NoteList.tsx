@@ -1,22 +1,19 @@
-import { Note } from "@/types"
+"use client"
 import NoteItem from "./NoteItem"
-import { store } from "@/state/store"
+import { useSelector } from 'react-redux'
+import { selectNotes } from '@/state/notes/noteSlice'
+import { Note } from '@/types'
 
 interface NoteListProps {
-  notes: Note[]
-  title: string
-  onDelete: (id: string) => void
-  onToggleArchive: (id: string) => void
-  onSetToEdit: (note: Note) => void
+  notes:Note[];
+  title: string;
 }
 
 const NoteList: React.FC<NoteListProps> = ({
   notes,
-  title,
-  onDelete,
-  onToggleArchive,
-  onSetToEdit,
+  title
 }) => {
+  
   if (notes.length === 0) {
     return (
       <p className="text-gray-500 italic">
@@ -33,9 +30,6 @@ const NoteList: React.FC<NoteListProps> = ({
           <NoteItem
             key={note.id}
             note={note}
-            onDelete={onDelete}
-            onToggleArchive={onToggleArchive}
-            onSetToEdit={onSetToEdit}
           />
         ))}
       </div>
