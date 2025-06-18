@@ -3,15 +3,16 @@ WORKDIR /app
 COPY package*.json ./
 RUN npm ci
 COPY . .
-ENV NEXT_TELEMETRY_DISABLED 1
+
 ENV NEXT_PUBLIC_BACKEND_URL=http://localhost:5000
-ENV SESSION_SECRET=123
 RUN npm run build
 
 FROM node:20-alpine as runner
 WORKDIR /app
 
 ENV NODE_ENV production
+ENV SESSION_SECRET=123
+ENV NEXT_TELEMETRY_DISABLED 1
 
 RUN addgroup --system --gid 1001 nodejs
 RUN adduser --system --uid 1001 nextjs
