@@ -6,7 +6,7 @@
     "test": "echo \"Error: no test specified\" && exit 1",
     "dev": "nodemon --exec node --require dotenv/config src/index.js",
     "start": "node --require dotenv/config src/index.js",
-    "build": "prisma generate && prisma migrate deploy"
+    "prisma": "prisma generate && prisma migrate deploy"
   },
   "keywords": [],
   "author": "fawredd",
@@ -16,9 +16,16 @@
     "@prisma/client": "^6.8.2",
     "cors": "^2.8.5",
     "dotenv": "^16.5.0",
-    "express": "^5.1.0"
+    "eslint-config-prettier": "^10.1.5",
+    "eslint-plugin-prettier": "^5.5.0",
+    "express": "^5.1.0",
+    "prettier": "^3.5.3",
+    "zod": "^3.25.67"
   },
   "devDependencies": {
+    "@eslint/js": "^9.29.0",
+    "eslint": "^9.29.0",
+    "globals": "^16.2.0",
     "nodemon": "^3.1.10",
     "prisma": "^6.8.2"
   },

@@ -21,10 +21,22 @@ model Note {
 	updatedAt	DateTime @updatedAt
 	archived	Boolean	@default(false)
 	tags      Tag[]    @relation("NoteTags")
+	user	User[] @relation("UserNotes") // Relation to User model
 }
 
 model Tag {
   id    String @id @default(cuid())
   name  String @unique 
   notes Note[] @relation("NoteTags") // Relation to Note model
+}
+
+model User {
+	id		String 	@id @default(cuid())
+	email		String 	@unique
+	password	String
+	name		String
+	role	 String @default("user") // "user" or "admin"
+	notes	Note[] @relation("UserNotes") // Relation to Note model
+	createdAt	DateTime @default(now())
+	updatedAt	DateTime @updatedAt
 }

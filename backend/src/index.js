@@ -1,8 +1,10 @@
 require("dotenv").config()
 const express = require("express")
 const cors = require("cors") 
+const userRoutes = require("./routes/userRoutes") // Import user routes
 const noteRoutes = require("./routes/noteRoutes") // Import note routes
 const errorHandler = require("./middlewares/errorHandler") // Import error handler middleware
+const AppError = require("./utils/apperror") // Import custom error class
 
 const { PrismaClient } = require("@prisma/client")
 const prisma = new PrismaClient()
@@ -14,11 +16,11 @@ app.use(cors()) // Enable CORS for all routes
 app.use(express.json()) 
 
 // API Routes
+app.use("/api/users", userRoutes)
 app.use("/api/notes", noteRoutes) // Use note routes for /api/notes path
-
-// Health check endpoint
-app.get("/api/health", (req, res) => {
-  res.json({ status: "UP", message: "Backend is healthy!" })
+app.all('*', (req, res,next) => {
+  next(new AppError(`Can't find ${req.originalUrl} on this
+     server`, 404))
 })
 
 // Error handler middleware

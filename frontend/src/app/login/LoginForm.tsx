@@ -1,11 +1,16 @@
 "use client";
 
-import { useActionState } from "react";
-import { useFormStatus } from "react-dom";
-import { login } from "./actions";
+import { useActionState, useCallback } from "react"
+import { useFormStatus } from "react-dom"
+import { login } from "./actions"
+import {redirect} from 'next/navigation'
 
 export function LoginForm() {
   const [state, loginAction] = useActionState(login, undefined);
+  
+  const handleCreateNewUser = ()=>{
+    redirect('/register')
+  }
 
   return (
     <form action={loginAction} className="flex max-w-[300px] flex-col gap-2 mx-auto">
@@ -28,6 +33,7 @@ export function LoginForm() {
         <p className="text-red-500">{state.errors.password}</p>
       )}
       <SubmitButton />
+      <button className='ml-2' onClick={handleCreateNewUser}>Create new user</button>
     </form>
   );
 }
