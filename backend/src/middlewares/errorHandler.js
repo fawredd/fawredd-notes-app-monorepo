@@ -1,8 +1,9 @@
+const process = require("node:process")
 /**
  * Custom error handling middleware.
  * It logs the error and sends a structured JSON response.
  */
-function errorHandler(err, req, res, next) {
+function errorHandler(err, req, res) {
   // Log the error details for debugging
   console.error(err);
 

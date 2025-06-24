@@ -4,7 +4,8 @@ const cors = require("cors")
 const userRoutes = require("./routes/userRoutes") // Import user routes
 const noteRoutes = require("./routes/noteRoutes") // Import note routes
 const errorHandler = require("./middlewares/errorHandler") // Import error handler middleware
-const AppError = require("./utils/apperror") // Import custom error class
+const AppError = require("./utils/appError") // Import custom error class
+const process = require("node:process")
 
 const { PrismaClient } = require("@prisma/client")
 const prisma = new PrismaClient()

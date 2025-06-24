@@ -56,7 +56,7 @@ const handleDeleteUser = asyncHandler(async (req, res)=> {
  * @route   GET /api/users
  * @access  Private/Admin
  */
-const handleGetAllUsers = asyncHandler(async (req, res, next) => {
+const handleGetAllUsers = asyncHandler(async (req, res) => {
   const users = await userServices.getAllUsers()
   res.status(200).json(users)
 })

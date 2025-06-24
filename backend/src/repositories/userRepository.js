@@ -1,11 +1,11 @@
 const { PrismaClient } = require('@prisma/client')
 const prisma = new PrismaClient()
+const userSchema = require('../middlewares/userDataValidator')
 
-
-async function findOrCreateUser(data={email, password,salt, userName, role:'user'}) {
+async function findOrCreateUser(data) {
 
   return prisma.user.upsert({
-    where: { email },
+    where: { email: data.email },
     update: {}, // No fields to update if user already exists
     create: data,
   })
@@ -23,7 +23,7 @@ async function getUserByEmail(email) {
   })
 }
 
-async function updateUser(id, data = {password, userName, role:'user'}) {
+async function updateUser(id, data) {
   const result = userSchema.safeParse(data);
   if (!result.success) {
     throw new Error(result.error.errors.map(e => e.message).join(', '));

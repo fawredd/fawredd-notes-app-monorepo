@@ -2,11 +2,13 @@
   "name": "notes-backend",
   "version": "1.0.0",
   "main": "index.js",
+  "type": "commonjs",
   "scripts": {
     "test": "echo \"Error: no test specified\" && exit 1",
     "dev": "nodemon --exec node --require dotenv/config src/index.js",
     "start": "node --require dotenv/config src/index.js",
-    "prisma": "prisma generate && prisma migrate deploy"
+    "prisma": "prisma generate && prisma migrate deploy",
+    "lint": "eslint . --ext .js --fix"
   },
   "keywords": [],
   "author": "fawredd",
@@ -16,17 +18,23 @@
     "@prisma/client": "^6.8.2",
     "cors": "^2.8.5",
     "dotenv": "^16.5.0",
-    "eslint-config-prettier": "^10.1.5",
-    "eslint-plugin-prettier": "^5.5.0",
     "express": "^5.1.0",
-    "prettier": "^3.5.3",
     "zod": "^3.25.67"
   },
   "devDependencies": {
     "@eslint/js": "^9.29.0",
-    "eslint": "^9.29.0",
+    "eslint": "^9.0.0",
+    "eslint-config-prettier": "^10.1.5",
+    "eslint-plugin-import": "^2.31.0",
+    "eslint-plugin-jsdoc": "^51.0.3",
+    "eslint-plugin-node": "^11.1.0",
+    "eslint-plugin-prettier": "^5.5.0",
+    "eslint-plugin-promise": "^7.2.1",
+    "eslint-plugin-security": "^3.0.1",
+    "eslint-plugin-unused-imports": "^4.1.4",
     "globals": "^16.2.0",
     "nodemon": "^3.1.10",
+    "prettier": "^3.5.3",
     "prisma": "^6.8.2"
   },
   "prettier": {

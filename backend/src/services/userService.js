@@ -68,10 +68,10 @@ async function getUserByEmail(email) {
   return user;
 }
 
-// Función para ser consistente con el controlador
+/* // Función para ser consistente con el controlador
 async function getAllUsers() {
   return userRepository.getAllUsers();
-}
+} */
 
 /**
  * Para actualizar un usuario.
