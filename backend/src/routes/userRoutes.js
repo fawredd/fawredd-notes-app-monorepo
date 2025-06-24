@@ -10,24 +10,24 @@ const router = express.Router()
 router.post(
   "/",
   validateUserData(userSchema, "body"),
-  userController.handleCreateUser
+  userController.handleCreateUser,
 )
 router.get("/", userController.handleGetAllUsers)
 router.get(
   "/:id",
   validateUserData(userIdSchema, "params"),
-  userController.handleGetUserById
+  userController.handleGetUserById,
 )
 router.put(
   "/:id",
   validateUserData(userIdSchema, "params"),
   validateUserData(userSchema, "body"),
-  userController.handleUpdateUser
+  userController.handleUpdateUser,
 )
 router.delete(
   "/:id",
   validateUserData(userIdSchema, "params"),
-  userController.handleDeleteUser
+  userController.handleDeleteUser,
 )
 
 module.exports = router

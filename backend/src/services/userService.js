@@ -1,6 +1,6 @@
 require("dotenv").config()
 const userRepository = require("../repositories/userRepository")
-const  AppError  = require("../utils/appError")
+const AppError = require("../utils/appError")
 const { scrypt, randomBytes } = require("node:crypto")
 const { promisify } = require("node:util")
 
@@ -25,7 +25,7 @@ async function createUser(userData) {
   const scryptPromisified = promisify(scrypt)
   const salt = randomBytes(16).toString("hex") // Genera una sal de 16 bytes (32 caracteres hexadecimales)
   const hashedPassword = (await scryptPromisified(password, salt, 64)).toString(
-    "hex"
+    "hex",
   ) // 64 bytes para la clave derivada
 
   // 3. Llamar al repositorio con los datos seguros.
@@ -47,12 +47,12 @@ async function createUser(userData) {
  * @returns {Promise<object>} El usuario encontrado.
  */
 async function getUserById(id) {
-  const user = await userRepository.getUserById(id);
+  const user = await userRepository.getUserById(id)
   if (!user) {
     // Usamos AppError para que el errorHandler se encargue del status 404
-    throw new AppError('User not found', 404);
+    throw new AppError("User not found", 404)
   }
-  return user;
+  return user
 }
 
 /**
@@ -61,11 +61,11 @@ async function getUserById(id) {
  * @returns {Promise<object>} El usuario encontrado.
  */
 async function getUserByEmail(email) {
-  const user = await userRepository.getUserByEmail(email);
+  const user = await userRepository.getUserByEmail(email)
   if (!user) {
-    throw new AppError('User not found', 404);
+    throw new AppError("User not found", 404)
   }
-  return user;
+  return user
 }
 
 /* // Función para ser consistente con el controlador
@@ -83,15 +83,15 @@ async function updateUser(id, userData) {
   // La lógica de verificar si el usuario existe ahora está dentro del repositorio para ser más eficiente.
   // El repositorio debería intentar actualizar y lanzar un error 404 si no encuentra el documento.
   // Esto evita la doble llamada a la base de datos.
-  const updatedUser = await userRepository.updateUser(id, userData);
+  const updatedUser = await userRepository.updateUser(id, userData)
 
   if (!updatedUser) {
     // Este `if` es un fallback por si el repositorio retorna `null` en lugar de lanzar un error.
     // La mejor práctica es que el propio repositorio lance el error.
-    throw new AppError('User not found, update failed', 404);
+    throw new AppError("User not found, update failed", 404)
   }
 
-  return updatedUser;
+  return updatedUser
 }
 
 /**
@@ -102,10 +102,11 @@ async function updateUser(id, userData) {
 async function deleteUser(id) {
   // Al igual que en update, dejamos que el repositorio maneje la verificación de existencia
   // para hacer una sola llamada a la DB.
-  const result = await userRepository.deleteUser(id);
+  const result = await userRepository.deleteUser(id)
 
-  if (!result) { // Suponiendo que el repo devuelve algo que indique si se borró o no
-      throw new AppError('User not found, deletion failed', 404);
+  if (!result) {
+    // Suponiendo que el repo devuelve algo que indique si se borró o no
+    throw new AppError("User not found, deletion failed", 404)
   }
 }
 

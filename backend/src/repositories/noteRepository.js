@@ -1,19 +1,29 @@
 const { PrismaClient } = require("@prisma/client")
 const prisma = new PrismaClient()
 
+/**
+ * Find or create tags by name.
+ * @param {string[]} tagNames - Array of tag names
+ * @returns {Promise<Array>} Array of tag objects
+ */
 async function findOrCreateTags(tagNames) {
   if (!tagNames || tagNames.length === 0) return []
   const operations = tagNames.map((name) =>
     prisma.tag.upsert({
-      // upsert = update or insert
       where: { name },
-      update: {}, // No fields to update if tag already exists
+      update: {},
       create: { name },
-    })
+    }),
   )
-  return Promise.all(operations) // Returns an array of Tag objects
+  return Promise.all(operations)
 }
 
+/**
+ * Create a note with tags.
+ * @param {object} data - Note data
+ * @param {string[]} tagNames - Array of tag names
+ * @returns {Promise<object>} Created note
+ */
 async function createNote(data, tagNames) {
   const tagsToConnect = await findOrCreateTags(tagNames)
   return prisma.note.create({
@@ -23,41 +33,57 @@ async function createNote(data, tagNames) {
         connect: tagsToConnect.map((tag) => ({ id: tag.id })),
       },
     },
-    include: { tags: true }, // Include tags in the returned note
+    include: { tags: true },
   })
 }
 
+/**
+ * Get all notes, optionally filtered by archived status or tag name.
+ * @param {object} root0 - Filter object
+ * @param {boolean|string} [root0.archived] - Archived filter
+ * @param {string} [root0.tagName] - Tag name filter
+ * @returns {Promise<Array>} Array of notes
+ */
 async function getAllNotes({ archived, tagName }) {
   const where = {}
   if (archived !== undefined) {
     where.archived = archived === "true" || archived === true
   }
   if (tagName) {
-    // Filter by notes that have at least one tag with the given name
     where.tags = { some: { name: tagName } }
   }
   return prisma.note.findMany({
     where,
-    include: { tags: true }, // Always include tags
+    include: { tags: true },
     orderBy: { createdAt: "desc" },
   })
 }
 
+/**
+ * Get a note by ID.
+ * @param {string} id - Note ID
+ * @returns {Promise<object|null>} Note object or null
+ */
 async function getNoteById(id) {
   return prisma.note.findUnique({
     where: { id },
-    include: { tags: true }, // Include tags
+    include: { tags: true },
   })
 }
 
+/**
+ * Update a note by ID.
+ * @param {string} id - Note ID
+ * @param {object} data - Note data to update
+ * @param {string[]} [tagNames] - Array of tag names
+ * @returns {Promise<object>} Updated note
+ */
 async function updateNote(id, data, tagNames) {
   const updatePayload = { ...data }
 
   if (tagNames !== undefined) {
-    // Check if tagNames array is provided (can be empty to clear tags)
     const tagsToConnect = await findOrCreateTags(tagNames)
     updatePayload.tags = {
-      // set: replaces all existing connected tags with the new set
       set: tagsToConnect.map((tag) => ({ id: tag.id })),
     }
   }
@@ -69,6 +95,11 @@ async function updateNote(id, data, tagNames) {
   })
 }
 
+/**
+ * Delete a note by ID.
+ * @param {string} id - Note ID
+ * @returns {Promise<object>} Deleted note
+ */
 async function deleteNote(id) {
   return prisma.note.delete({ where: { id } })
 }

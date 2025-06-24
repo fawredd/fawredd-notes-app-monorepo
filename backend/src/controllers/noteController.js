@@ -1,6 +1,10 @@
 const noteService = require("../services/noteService")
 
-  // Assuming req.body.tags is an array of strings like ["tag1", "tag2"]
+/**
+ * Handle creation of a new note.
+ * @param {import('express').Request} req - Express request object
+ * @param {import('express').Response} res - Express response object
+ */
 async function handleCreateNote(req, res) {
   try {
     if (!req.body.title) {
@@ -16,6 +20,11 @@ async function handleCreateNote(req, res) {
   }
 }
 
+/**
+ * Handle fetching all notes.
+ * @param {import('express').Request} req - Express request object
+ * @param {import('express').Response} res - Express response object
+ */
 async function handleGetAllNotes(req, res) {
   try {
     const { archived, tag } = req.query
@@ -29,6 +38,11 @@ async function handleGetAllNotes(req, res) {
   }
 }
 
+/**
+ * Handle fetching a note by ID.
+ * @param {import('express').Request} req - Express request object
+ * @param {import('express').Response} res - Express response object
+ */
 async function handleGetNoteById(req, res) {
   try {
     const note = await noteService.getNoteById(req.params.id)
@@ -44,6 +58,11 @@ async function handleGetNoteById(req, res) {
   }
 }
 
+/**
+ * Handle updating a note.
+ * @param {import('express').Request} req - Express request object
+ * @param {import('express').Response} res - Express response object
+ */
 async function handleUpdateNote(req, res) {
   try {
     const note = await noteService.updateNote(req.params.id, req.body)
@@ -59,6 +78,11 @@ async function handleUpdateNote(req, res) {
   }
 }
 
+/**
+ * Handle deleting a note.
+ * @param {import('express').Request} req - Express request object
+ * @param {import('express').Response} res - Express response object
+ */
 async function handleDeleteNote(req, res) {
   try {
     await noteService.deleteNote(req.params.id)

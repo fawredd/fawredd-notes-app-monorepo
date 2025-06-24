@@ -1,60 +1,65 @@
-const userServices = require('../services/userService')
-const asyncHandler = require('../utils/asyncHandler')
+const userServices = require("../services/userService")
+const asyncHandler = require("../utils/asyncHandler")
 
 /**
- * @desc    Create a new user
- * @route   POST /api/users
- * @access  Public
+ * @description Create a new user
+ * @access public
+ * @function POST
+ * @param {import('express').Request} req - Express request object
+ * @param {import('express').Response} res - Express response object
  */
 const handleCreateUser = asyncHandler(async (req, res) => {
-     // Input validation is assumed to be handled by a middleware before this.
-    const { email, password, name, role } = req.body
-    // The service should throw an error if the user already exists.
-    const user = await userServices.createUser({ email, password, name, role })
-    res.status(201).json(user)
+  const { email, password, name, role } = req.body
+  const user = await userServices.createUser({ email, password, name, role })
+  res.status(201).json(user)
 })
 
 /**
- * @desc    Get user by ID
- * @route   GET /api/users/:id
- * @access  Private
+ * @description Get user by ID
+ * @access private
+ * @function GET
+ * @param {import('express').Request} req - Express request object
+ * @param {import('express').Response} res - Express response object
  */
 const handleGetUserById = asyncHandler(async (req, res) => {
   const { id } = req.params
-  // The service should throw an error if the user is not found.
-  const user = await userServices.getUserById(id);
-  res.status(200).json(user);
+  const user = await userServices.getUserById(id)
+  res.status(200).json(user)
 })
 
 /**
- * @desc    Update a user
- * @route   PUT /api/users/:id
- * @access  Private
+ * @description Update a user
+ * @access private
+ * @function PUT
+ * @param {import('express').Request} req - Express request object
+ * @param {import('express').Response} res - Express response object
  */
 const handleUpdateUser = asyncHandler(async (req, res) => {
   const { id } = req.params
   const { email, name, role } = req.body
-  // The service should throw a 404 error if the user is not found.
-  const user = await userServices.updateUser(id, { email, name, role });
-  res.status(200).json(user);
-})
-  
-/**
- * @desc    Delete a user
- * @route   DELETE /api/users/:id
- * @access  Private/Admin
- */
-const handleDeleteUser = asyncHandler(async (req, res)=> {
-  const { id } = req.params
-  // The service should throw a 404 error if the user is not found.
-  await userServices.deleteUser(id)
-  res.status(204).json({ message: 'User deleted successfully' })
+  const user = await userServices.updateUser(id, { email, name, role })
+  res.status(200).json(user)
 })
 
 /**
- * @desc    Get all users
- * @route   GET /api/users
- * @access  Private/Admin
+ * @description Delete a user
+ * @access private
+ * @function DELETE
+ * @param {import('express').Request} req - Express request object
+ * @param {import('express').Response} res - Express response object
+ */
+const handleDeleteUser = asyncHandler(async (req, res) => {
+  const { id } = req.params
+  await userServices.deleteUser(id)
+  res.status(204).json({ message: "User deleted successfully" })
+})
+
+/**
+ * @description Get all users
+ * @access private
+ * @function GET
+ * @param {import('express').Request} req - Express request object
+ * @param {import('express').Response} res - Express response object
  */
 const handleGetAllUsers = asyncHandler(async (req, res) => {
   const users = await userServices.getAllUsers()
@@ -66,5 +71,5 @@ module.exports = {
   handleGetUserById,
   handleUpdateUser,
   handleDeleteUser,
-  handleGetAllUsers
+  handleGetAllUsers,
 }
