@@ -1,13 +1,13 @@
-require("dotenv").config()
-const express = require("express")
-const cors = require("cors")
-const userRoutes = require("./routes/userRoutes") // Import user routes
-const noteRoutes = require("./routes/noteRoutes") // Import note routes
-const errorHandler = require("./middlewares/errorHandler") // Import error handler middleware
-const AppError = require("./utils/appError") // Import custom error class
-const process = require("node:process")
+require('dotenv').config()
+const express = require('express')
+const cors = require('cors')
+const process = require('node:process')
+const { PrismaClient } = require('@prisma/client')
+const userRoutes = require('./routes/userRoutes') // Import user routes
+const noteRoutes = require('./routes/noteRoutes') // Import note routes
+const errorHandler = require('./middlewares/errorHandler') // Import error handler middleware
+const AppError = require('./utils/appError') // Import custom error class
 
-const { PrismaClient } = require("@prisma/client")
 const prisma = new PrismaClient()
 
 const app = express()
@@ -17,9 +17,9 @@ app.use(cors()) // Enable CORS for all routes
 app.use(express.json())
 
 // API Routes
-app.use("/api/users", userRoutes)
-app.use("/api/notes", noteRoutes) // Use note routes for /api/notes path
-app.all("*", (req, res, next) => {
+app.use('/api/users', userRoutes)
+app.use('/api/notes', noteRoutes) // Use note routes for /api/notes path
+app.all('*', (req, res, next) => {
   next(
     new AppError(
       `Can't find ${req.originalUrl} on this

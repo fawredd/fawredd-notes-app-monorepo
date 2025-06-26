@@ -1,5 +1,5 @@
-const { z } = require("zod")
-const AppError = require("../utils/appError")
+const { z } = require('zod')
+const AppError = require('../utils/appError')
 
 /**
  * Higher-Order Function to validate request data using a Zod schema.
@@ -8,12 +8,12 @@ const AppError = require("../utils/appError")
  * @returns {Function} An Express middleware function.
  */
 const validateUserData =
-  (schema, source = "body") =>
+  (schema, source = 'body') =>
   (req, res, next) => {
     // Only allow specific sources to prevent object injection
-    const allowedSources = ["body", "query", "params"]
+    const allowedSources = ['body', 'query', 'params']
     if (!allowedSources.includes(source)) {
-      return next(new AppError("Invalid data source for validation", 500))
+      return next(new AppError('Invalid data source for validation', 500))
     }
 
     // eslint-disable-next-line security/detect-object-injection -- source is validated above
@@ -24,10 +24,10 @@ const validateUserData =
     if (!result.success) {
       // Pass the ZodError directly to the error handling middleware
       const errors = result.error.errors.map((err) => ({
-        path: Array.isArray(err.path) ? err.path.join(".") : err.path,
+        path: Array.isArray(err.path) ? err.path.join('.') : err.path,
         message: err.message,
       }))
-      return next(new AppError("Datos de entrada inválidos", 400, errors))
+      return next(new AppError('Datos de entrada inválidos', 400, errors))
     }
 
     // eslint-disable-next-line security/detect-object-injection -- source is validated above
@@ -38,18 +38,13 @@ const validateUserData =
 
 // Define Zod schemas here (or import them )
 const userSchema = z.object({
-  email: z.string().email({ message: "Invalid email address" }).trim(),
-  password: z
-    .string()
-    .min(6, { message: "Password must be at least 6 characters long" })
-    .trim(),
+  email: z.string().email({ message: 'Invalid email address' }).trim(),
+  password: z.string().min(6, { message: 'Password must be at least 6 characters long' }).trim(),
   userName: z.string().trim(),
-  role: z.enum(["user", "admin"]).default("user"),
+  role: z.enum(['user', 'admin']).default('user'),
 })
 
-const userIdSchema = z.object({
-  id: z.string().uuid("Invalid user ID format"),
-})
+const userIdSchema = z.object({ id: z.string().uuid('Invalid user ID format') })
 
 module.exports = {
   validateUserData,

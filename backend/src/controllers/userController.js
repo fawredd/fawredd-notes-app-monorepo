@@ -1,5 +1,5 @@
-const userServices = require("../services/userService")
-const asyncHandler = require("../utils/asyncHandler")
+const userServices = require('../services/userService')
+const asyncHandler = require('../utils/asyncHandler')
 
 /**
  * @description Create a new user
@@ -51,7 +51,7 @@ const handleUpdateUser = asyncHandler(async (req, res) => {
 const handleDeleteUser = asyncHandler(async (req, res) => {
   const { id } = req.params
   await userServices.deleteUser(id)
-  res.status(204).json({ message: "User deleted successfully" })
+  res.status(204).json({ message: 'User deleted successfully' })
 })
 
 /**

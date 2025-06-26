@@ -1,4 +1,4 @@
-const noteRepository = require("../repositories/noteRepository")
+const noteRepository = require('../repositories/noteRepository')
 
 /**
  * Create a note.
@@ -29,7 +29,7 @@ async function getAllNotes({ archived, tag }) {
 async function getNoteById(id) {
   const note = await noteRepository.getNoteById(id)
   if (!note) {
-    throw new Error("Note not found")
+    throw new Error('Note not found')
   }
   return note
 }
@@ -43,7 +43,7 @@ async function getNoteById(id) {
 async function updateNote(id, noteData) {
   const existingNote = await noteRepository.getNoteById(id)
   if (!existingNote) {
-    throw new Error("Note not found for update")
+    throw new Error('Note not found for update')
   }
   const { tags, ...restOfNoteData } = noteData
   return noteRepository.updateNote(id, restOfNoteData, tags)
@@ -57,7 +57,7 @@ async function updateNote(id, noteData) {
 async function deleteNote(id) {
   const existingNote = await noteRepository.getNoteById(id)
   if (!existingNote) {
-    throw new Error("Note not found for deletion")
+    throw new Error('Note not found for deletion')
   }
   return noteRepository.deleteNote(id)
 }

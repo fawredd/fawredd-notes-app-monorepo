@@ -8,7 +8,8 @@
     "dev": "nodemon --exec node --require dotenv/config src/index.js",
     "start": "node --require dotenv/config src/index.js",
     "prisma": "prisma generate && prisma migrate deploy",
-    "lint": "eslint . --ext .js --fix"
+    "lint": "eslint .",
+    "lint:fix": "eslint . --fix"
   },
   "keywords": [],
   "author": "fawredd",
@@ -22,22 +23,13 @@
     "zod": "^3.25.67"
   },
   "devDependencies": {
-    "@eslint/js": "^9.29.0",
-    "eslint": "^9.0.0",
+    "eslint": "^8.2.0",
+    "eslint-config-airbnb-base": "^15.0.0",
     "eslint-config-prettier": "^10.1.5",
-    "eslint-plugin-import": "^2.31.0",
-    "eslint-plugin-jsdoc": "^51.0.3",
-    "eslint-plugin-node": "^11.1.0",
-    "eslint-plugin-prettier": "^5.5.0",
-    "eslint-plugin-promise": "^7.2.1",
-    "eslint-plugin-security": "^3.0.1",
-    "eslint-plugin-unused-imports": "^4.1.4",
-    "globals": "^16.2.0",
+    "eslint-plugin-import": "^2.25.2",
+    "eslint-plugin-prettier": "^5.5.1",
     "nodemon": "^3.1.10",
-    "prettier": "^3.5.3",
+    "prettier": "^3.6.1",
     "prisma": "^6.8.2"
-  },
-  "prettier": {
-    "semi": false
   }
 }

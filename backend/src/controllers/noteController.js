@@ -1,4 +1,4 @@
-const noteService = require("../services/noteService")
+const noteService = require('../services/noteService')
 
 /**
  * Handle creation of a new note.
@@ -8,15 +8,13 @@ const noteService = require("../services/noteService")
 async function handleCreateNote(req, res) {
   try {
     if (!req.body.title) {
-      return res.status(400).json({ error: "Title is required" })
+      return res.status(400).json({ error: 'Title is required' })
     }
     const note = await noteService.createNote(req.body)
     res.status(201).json(note)
   } catch (error) {
-    console.error("Error creating note:", error)
-    res
-      .status(500)
-      .json({ error: "Failed to create note", details: error.message })
+    console.error('Error creating note:', error)
+    res.status(500).json({ error: 'Failed to create note', details: error.message })
   }
 }
 
@@ -31,10 +29,8 @@ async function handleGetAllNotes(req, res) {
     const notes = await noteService.getAllNotes({ archived, tag })
     res.status(200).json(notes)
   } catch (error) {
-    console.error("Error fetching notes:", error)
-    res
-      .status(500)
-      .json({ error: "Failed to fetch notes", details: error.message })
+    console.error('Error fetching notes:', error)
+    res.status(500).json({ error: 'Failed to fetch notes', details: error.message })
   }
 }
 
@@ -49,12 +45,10 @@ async function handleGetNoteById(req, res) {
     res.status(200).json(note)
   } catch (error) {
     console.error(`Error fetching note ${req.params.id}:`, error)
-    if (error.message === "Note not found") {
+    if (error.message === 'Note not found') {
       return res.status(404).json({ error: error.message })
     }
-    res
-      .status(500)
-      .json({ error: "Failed to fetch note", details: error.message })
+    res.status(500).json({ error: 'Failed to fetch note', details: error.message })
   }
 }
 
@@ -69,12 +63,10 @@ async function handleUpdateNote(req, res) {
     res.status(200).json(note)
   } catch (error) {
     console.error(`Error updating note ${req.params.id}:`, error)
-    if (error.message.includes("Note not found")) {
+    if (error.message.includes('Note not found')) {
       return res.status(404).json({ error: error.message })
     }
-    res
-      .status(500)
-      .json({ error: "Failed to update note", details: error.message })
+    res.status(500).json({ error: 'Failed to update note', details: error.message })
   }
 }
 
@@ -89,12 +81,10 @@ async function handleDeleteNote(req, res) {
     res.status(204).send()
   } catch (error) {
     console.error(`Error deleting note ${req.params.id}:`, error)
-    if (error.message.includes("Note not found")) {
+    if (error.message.includes('Note not found')) {
       return res.status(404).json({ error: error.message })
     }
-    res
-      .status(500)
-      .json({ error: "Failed to delete note", details: error.message })
+    res.status(500).json({ error: 'Failed to delete note', details: error.message })
   }
 }
 

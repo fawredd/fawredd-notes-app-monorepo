@@ -1,4 +1,5 @@
-const { PrismaClient } = require("@prisma/client")
+const { PrismaClient } = require('@prisma/client')
+
 const prisma = new PrismaClient()
 
 /**
@@ -29,9 +30,7 @@ async function createNote(data, tagNames) {
   return prisma.note.create({
     data: {
       ...data,
-      tags: {
-        connect: tagsToConnect.map((tag) => ({ id: tag.id })),
-      },
+      tags: { connect: tagsToConnect.map((tag) => ({ id: tag.id })) },
     },
     include: { tags: true },
   })
@@ -47,7 +46,7 @@ async function createNote(data, tagNames) {
 async function getAllNotes({ archived, tagName }) {
   const where = {}
   if (archived !== undefined) {
-    where.archived = archived === "true" || archived === true
+    where.archived = archived === 'true' || archived === true
   }
   if (tagName) {
     where.tags = { some: { name: tagName } }
@@ -55,7 +54,7 @@ async function getAllNotes({ archived, tagName }) {
   return prisma.note.findMany({
     where,
     include: { tags: true },
-    orderBy: { createdAt: "desc" },
+    orderBy: { createdAt: 'desc' },
   })
 }
 
@@ -83,9 +82,7 @@ async function updateNote(id, data, tagNames) {
 
   if (tagNames !== undefined) {
     const tagsToConnect = await findOrCreateTags(tagNames)
-    updatePayload.tags = {
-      set: tagsToConnect.map((tag) => ({ id: tag.id })),
-    }
+    updatePayload.tags = { set: tagsToConnect.map((tag) => ({ id: tag.id })) }
   }
 
   return prisma.note.update({

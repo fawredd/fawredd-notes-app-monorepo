@@ -1,6 +1,7 @@
-const { PrismaClient } = require("@prisma/client")
+const { PrismaClient } = require('@prisma/client')
+
 const prisma = new PrismaClient()
-const userSchema = require("../middlewares/userDataValidator")
+const userSchema = require('../middlewares/userDataValidator')
 
 /**
  * Find or create a user by email.
@@ -21,9 +22,7 @@ async function findOrCreateUser(data) {
  * @returns {Promise<object|null>} User object or null
  */
 async function getUserById(id) {
-  return prisma.user.findUnique({
-    where: { id },
-  })
+  return prisma.user.findUnique({ where: { id } })
 }
 
 /**
@@ -32,9 +31,7 @@ async function getUserById(id) {
  * @returns {Promise<object|null>} User object or null
  */
 async function getUserByEmail(email) {
-  return prisma.user.findUnique({
-    where: { email },
-  })
+  return prisma.user.findUnique({ where: { email } })
 }
 
 /**
@@ -46,7 +43,7 @@ async function getUserByEmail(email) {
 async function updateUser(id, data) {
   const result = userSchema.safeParse(data)
   if (!result.success) {
-    throw new Error(result.error.errors.map((e) => e.message).join(", "))
+    throw new Error(result.error.errors.map((e) => e.message).join(', '))
   }
   return prisma.user.update({
     where: { id },
@@ -60,9 +57,7 @@ async function updateUser(id, data) {
  * @returns {Promise<object>} Deleted user
  */
 async function deleteUser(id) {
-  return prisma.user.delete({
-    where: { id },
-  })
+  return prisma.user.delete({ where: { id } })
 }
 
 module.exports = {
